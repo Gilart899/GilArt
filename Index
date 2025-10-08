@@ -4,12 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>GilFest — Orçamentos & Contratos</title>
-  <meta name="description" content="GilFest — Ferramenta de orçamento e contrato com assinatura digital e exportação em PDF">
+  <meta name="description" content="GilArt — Ferramenta de orçamento e contrato com assinatura digital e exportação em PDF">
   <style>
     :root{
       --accent:#0d6efd;
       --muted:#666;
-      --bg:#fff;
+      --bg:#fff; e 
     }
     *{box-sizing:border-box}
     body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; background:#f4f6f9; color:#111}
@@ -106,8 +106,8 @@
       <section aria-labelledby="servicos-title">
         <h2 id="servicos-title">Serviços</h2>
 
-        <!-- COMIDAS E GULOSEIMAS -->
-        <div class="categoria" id="categoria-comidas-guloseimas">
+        <!-- SIGNS & MAKER -->
+        <div class="categoria" id="categoria-Signs & Marketing">
           <h3>Comidas e Guloseimas</h3>
 
           <div class="item" data-preco="2.00" data-id="algodao-saquinho-">
