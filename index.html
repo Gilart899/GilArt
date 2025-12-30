@@ -1,113 +1,162 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>GilFest — Orçamentos & Contratos</title>
-  <meta name="description" content="GilArt — Ferramenta de orçamento e contrato com assinatura digital e exportação em PDF">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orçamento GilArt</title>
   <style>
-    :root{
-      --accent:#0d6efd;
-      --muted:#666;
-      --bg:#fff; e 
+    body{
+      font-family: Arial, sans-serif;
+      background:#f5f5f5;
+      margin:0;
+      padding:0;
     }
-    *{box-sizing:border-box}
-    body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; background:#f4f6f9; color:#111}
-    .container{max-width:980px;margin:18px auto;padding:18px;background:var(--bg);border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.06)}
-    .header{display:flex;gap:12px;align-items:center}
-    .logo{width:64px;height:64px;object-fit:contain}
-    h1{font-size:1.25rem;margin:0}
-    .lead{margin:0;color:var(--muted);font-size:.95rem}
-    section{margin-top:18px}
-    h2{font-size:1.05rem;margin:8px 0}
-    .row{display:grid;grid-template-columns:1fr;gap:10px}
-    label{font-size:.85rem;color:var(--muted);display:block;margin-bottom:6px}
-    input[type="text"], input[type="number"], input[type="date"], input[type="tel"], select{
-      padding:8px;border-radius:8px;border:1px solid #e3e6ea;width:100%;background:#fff
+    header{
+      background:#1e1e1e;
+      color:#fff;
+      padding:15px;
+      text-align:center;
     }
-    .config-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    .categoria{margin-top:8px}
-    .item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border-radius:8px;border:1px solid #eee;background:#fcfdff;margin-top:8px}
-    .item-left{display:flex;align-items:center;gap:10px;flex:1}
-    .item-checkbox{transform:scale(1.1)}
-    .item-title{font-weight:600}
-    .qty{display:flex;align-items:center;gap:6px}
-    .qty button{padding:6px 8px;border-radius:6px;border:1px solid #ddd;background:#fff;cursor:pointer}
-    .qty input{width:62px;padding:6px;border-radius:6px;border:1px solid #ddd;text-align:center}
-    .preco{min-width:100px;text-align:right;color:var(--muted);font-weight:600}
-    #resumo{background:#f1f3f9;padding:12px;border-radius:8px;margin-top:12px}
-    .actions{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-    .actions button{padding:10px;border-radius:8px;border:0;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
-    .actions button.secondary{background:#28a745}
-    .sigWrap{margin-top:12px}
-    canvas#signature-pad{border:1px solid #dcdcdc;border-radius:6px;display:block;max-width:100%}
-    .sigActions{display:flex;gap:8px;margin-top:8px}
-    .sigActions button{padding:8px 10px;border-radius:6px;border:0;cursor:pointer}
-    .muted{color:var(--muted);font-size:.95rem}
-    @media(min-width:720px){
-      .row{grid-template-columns:repeat(3,1fr)}
-      .actions{flex-direction:row}
-      .config-grid{grid-template-columns:repeat(3,1fr)}
+    .container{
+      max-width:900px;
+      margin:auto;
+      padding:15px;
     }
-
-    /* PIX button minor styles */
-    #pix-container a{display:flex;align-items:center;justify-content:center}
+    .section{
+      background:#fff;
+      margin-bottom:20px;
+      padding:15px;
+      border-radius:10px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    }
+    .section h2{
+      margin-top:0;
+      border-bottom:2px solid #eee;
+      padding-bottom:8px;
+    }
+    .item{
+      display:flex;
+      align-items:center;
+      gap:15px;
+      margin-bottom:15px;
+    }
+    .item img{
+      width:90px;
+      height:90px;
+      object-fit:cover;
+      border-radius:8px;
+      border:1px solid #ddd;
+    }
+    .item-info{
+      flex:1;
+    }
+    .item-info h3{
+      margin:0 0 5px 0;
+    }
+    .price{
+      color:#008000;
+      font-weight:bold;
+    }
+    .qty{
+      display:flex;
+      align-items:center;
+      gap:5px;
+      margin-top:8px;
+    }
+    .qty button{
+      width:30px;
+      height:30px;
+      border:none;
+      background:#1e1e1e;
+      color:#fff;
+      border-radius:5px;
+      cursor:pointer;
+    }
+    .qty input{
+      width:50px;
+      text-align:center;
+    }
+    .total{
+      font-size:20px;
+      text-align:right;
+      font-weight:bold;
+    }
+    .actions button{
+      width:100%;
+      padding:15px;
+      margin-top:10px;
+      border:none;
+      border-radius:8px;
+      font-size:16px;
+      cursor:pointer;
+    }
+    .pdf{background:#007bff;color:#fff;}
+    .whatsapp{background:#25d366;color:#fff;}
   </style>
 </head>
-<body>
-  <main class="container" role="main">
-    <header class="header" aria-label="Cabeçalho">
-      <img src="logo.png" alt="Logo GilFest" class="logo" />
-      <div>
-        <h1>GilFest — Orçamentos & Contratos</h1>
-        <p class="lead">Gere orçamento e contrato com assinatura digital e exporte em PDF.</p>
-        <p class="muted">CPF: <strong>045.761.515-09</strong> • Tel: <strong>(79) 9 9914-5044</strong></p>
-        <p class="muted">Endereço: <strong>Av. Principal do conjunto João Alves, n°705 — Nossa Senhora do Socorro - SE</strong></p>
-      </div>
-    </header>
+<body><header>
+  <h1>Orçamento GilArt</h1>
+  <p>Selecione os itens desejados</p>
+</header><div class="container">  <div class="section">
+    <h2>🍭 Guloseimas</h2><div class="item">
+  <img src="https://via.placeholder.com/150?text=Algod%C3%A3o+Doce" alt="Algodão Doce">
+  <div class="item-info">
+    <h3>Algodão Doce no Saquinho</h3>
+    <div class="price">R$ 2,00 / un</div>
+    <div class="qty">
+      <button onclick="alterar(this,-1)">-</button>
+      <input type="number" value="0" data-preco="2">
+      <button onclick="alterar(this,1)">+</button>
+    </div>
+  </div>
+</div>
 
-    <form id="orcForm" novalidate>
-      <section aria-labelledby="cliente-title">
-        <h2 id="cliente-title">Dados do Cliente</h2>
-        <div class="row">
-          <div>
-            <label for="clienteNome">Nome</label>
-            <input id="clienteNome" type="text" placeholder="Ex: João Silva" />
-          </div>
-          <div>
-            <label for="clienteTelefone">Telefone</label>
-            <input id="clienteTelefone" type="tel" placeholder="(99) 99999-9999" />
-          </div>
-          <div>
-            <label for="dataEvento">Data do Evento</label>
-            <input id="dataEvento" type="date" />
-          </div>
-        </div>
-      </section>
+<div class="item">
+  <img src="https://via.placeholder.com/150?text=Pipoca" alt="Pipoca">
+  <div class="item-info">
+    <h3>Pipoca</h3>
+    <div class="price">R$ 2,50 / un</div>
+    <div class="qty">
+      <button onclick="alterar(this,-1)">-</button>
+      <input type="number" value="0" data-preco="2.5">
+      <button onclick="alterar(this,1)">+</button>
+    </div>
+  </div>
+</div>
 
-      <section aria-labelledby="config-title">
-        <h2 id="config-title">Configurações (fixas)</h2>
-        <div class="config-grid">
-          <div>
-            <label for="valorHoraExtra">Valor hora extra (R$) — fixo</label>
-            <input id="valorHoraExtra" type="number" value="100.00" readonly />
-          </div>
-          <div>
-            <label for="percentualSinal">Percentual de sinal (%) — fixo</label>
-            <input id="percentualSinal" type="number" value="40" readonly />
-          </div>
-          <div>
-            <label for="observacoes">Observações (opcional)</label>
-            <input id="observacoes" type="text" placeholder="Ex: Local com acesso a energia elétrica" />
-          </div>
-        </div>
-      </section>
+  </div>  <div class="section">
+    <h2>🎠 Brinquedos</h2><div class="item">
+  <img src="https://via.placeholder.com/150?text=Pula+Pula" alt="Pula-pula">
+  <div class="item-info">
+    <h3>Pula-pula</h3>
+    <div class="price">R$ 150,00</div>
+    <div class="qty">
+      <button onclick="alterar(this,-1)">-</button>
+      <input type="number" value="0" data-preco="150">
+      <button onclick="alterar(this,1)">+</button>
+    </div>
+  </div>
+</div>
 
-      <section aria-labelledby="servicos-title">
-        <h2 id="servicos-title">Serviços</h2>
+  </div>  <div class="section">
+    <div class="total">Total: R$ <span id="total">0.00</span></div>
+  </div>  <div class="actions">
+    <button class="pdf">📄 Gerar Orçamento PDF</button>
+    <button class="whatsapp">💬 Enviar pelo WhatsApp</button>
+  </div></div><script>
+  function alterar(btn,valor){
+    const input = btn.parentElement.querySelector('input');
+    let v = parseInt(input.value) + valor;
+    if(v < 0) v = 0;
+    input.value = v;
+    calcular();
+  }
 
-        <!-- SIGNS & MAKER -->
-        <div class="categoria" id="categoria-Signs & Marketing">
-          <h3>Comidas e Guloseimas</h3>
-
-          <div class="item" data-preco="2.00" data-id="algodao-saquinho-">
+  function calcular(){
+    let total = 0;
+    document.querySelectorAll('input[data-preco]').forEach(i=>{
+      total += i.value * parseFloat(i.dataset.preco);
+    });
+    document.getElementById('total').innerText = total.toFixed(2);
+  }
+</script></body>
+</html>
